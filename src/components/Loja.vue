@@ -5,7 +5,7 @@
             <input type="number" v-model.number="quantidade" />
             <span>itens de <strong>R$</strong></span>
             <input type="number" v-model.number="preco" />
-            <button @click="adicionar">Agora!</button>
+            <button @click="adicionar">Adicionar</button>
         </div>
     </Painel>
 </template>
@@ -15,24 +15,31 @@ export default {
     data() {
         return {
             sequencia: 1,
-            quantidade: 1,
-            preco: 9.99,
         };
+    },
+    computed: {
+        parametro() {
+            return this.$store.state.parametros;
+        },
+        quantidade() {
+            return this.parametro.quantidade;
+        },
+        preco() {
+            return this.parametro.preco;
+        },
     },
     methods: {
         adicionar() {
             const produto = {
                 id: this.sequencia,
-                nome: `Produto ${this.sequencia}`,
+                nome: `Produto ${this.sequencia++}`,
                 quantidade: this.quantidade,
                 preco: this.preco,
             };
 
-            this.sequencia++;
+            console.log(this.$store.state.name);
 
-            // this.$store.state.produtos.push(produto);
-
-            this.$store.commit('adicionarProduto', produto);
+            this.$store.dispatch('adicionarProduto', produto);
         },
     },
 };
